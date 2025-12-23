@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required',
@@ -21,11 +22,11 @@ class AuthController extends Controller
             'errors' => $validator->errors(),
         ], 422);
 
-        if(!Auth::attempt($request->only(['email', 'password']))) {
+        if (!Auth::attempt($request->only(['email', 'password']))) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Email atau Password salah',
-                'errors' => null
+                'errors' => null,
             ], 401);
         }
 
@@ -42,7 +43,8 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $request->user()->tokens()->delete();
 
         return response()->json([
@@ -52,11 +54,12 @@ class AuthController extends Controller
         ]);
     }
 
-    public function profile(Request $request) {
+    public function profile(Request $request)
+    {
         return response()->json([
             'status' => 'success',
-            'message' => 'Data profile',
+            'message' => 'Data berhasil dimuat',
             'data' => $request->user(),
-        ], 200);
+        ]);
     }
 }
