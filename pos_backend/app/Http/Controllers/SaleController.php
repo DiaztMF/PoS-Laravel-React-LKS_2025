@@ -52,14 +52,12 @@ class SaleController extends Controller
                 $subTotal = $product->price * $item['quantity'];
                 $totalPrice += $subTotal;
 
-                $product->stock = $product->stock - $item['quantity'];
-                $product->save();
+                $product->decrement('stock', $item['quantity']);   
 
-                SalesDetail::create([
-                    'sale_id' => $sale->id,
+                $sale->details->create([
                     'product_id' => $product->id,
                     'quantity' => $item['quantity'],
-                    'subtotal' => $subTotal,
+                    'subtotal' => $subTotal
                 ]);
 
                 $sale->update([
@@ -124,10 +122,7 @@ class SaleController extends Controller
             foreach ($sale->details as $detail) {
                 $product = Product::find($detail->product_id);
 
-                if ($product) {
-                    $product->stock += $detail->quantity;
-                    $product->save();
-                }
+                $product->increment('stock', $detail->quantity);
             }
 
             $sale->details()->delete();
@@ -145,8 +140,8 @@ class SaleController extends Controller
             DB::rollBack();
             return response()->json([
                 'status' => 'error',
-                'message' => 'Gagal menghapus transaksi: ' . $e->getMessage(),
-                'errors' => null
+                'message' => 'Gagal menghapus transaksi',
+                'errors' => $e->getMessage()
             ], 500);
         }
     }
@@ -154,7 +149,7 @@ class SaleController extends Controller
     public function details($sale_id) {
         $details = SalesDetail::with('product')->where('sale_id', $sale_id)->get();
 
-        if ($details->isEmpty()    ) return response()->json([
+        if ($details->isEmpty()) return response()->json([
             'status' => 'error',
             'message' => 'Data detail transaksi tidak ditemukan',
             'errors' => null,
