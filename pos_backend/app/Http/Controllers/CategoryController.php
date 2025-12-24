@@ -63,8 +63,8 @@ class CategoryController extends Controller
         $category->update($request->all());
 
         return response()->json([
-            'status' => "success",
-            'message' => "Kategori berhasil diupdate",
+            'status' => 'success',
+            'message' => 'Kategori berhasil diupdate',
             'data' => $category,
         ]);
     }
@@ -81,9 +81,9 @@ class CategoryController extends Controller
                 'message' => 'Kategori tidak ditemukan',
                 'errors' => null,
             ], 404);
-        } else {
-            $category->delete();
         }
+
+        $category->delete();
 
         return response()->json([
             'status' => 'success',
