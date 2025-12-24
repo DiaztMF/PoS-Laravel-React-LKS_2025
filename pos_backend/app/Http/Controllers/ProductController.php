@@ -33,7 +33,7 @@ class ProductController extends Controller
             'stock' => 'required|integer',
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Input salah',
@@ -42,7 +42,7 @@ class ProductController extends Controller
         }
 
         $product = Product::create($request->all());
-        
+
         return response()->json([
             'status' => 'success',
             'message' => 'Data berhasil disimpan',
@@ -65,7 +65,7 @@ class ProductController extends Controller
         }
 
         $product->update($request->all());
-        
+
         return response()->json([
             'status' => 'success',
             'message' => 'Produk berhasil diupdate',
@@ -85,9 +85,9 @@ class ProductController extends Controller
                 'message' => 'Produk tidak ditemukan',
                 'error' => null,
             ], 404);
-        } else {
-            $product->delete();
         }
+        
+        $product->delete();
 
         return response()->json([
             'status' => 'success',
