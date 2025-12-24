@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -37,7 +38,7 @@ class ProductController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Input salah',
-                'error' => $validator->errors(),
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -60,7 +61,7 @@ class ProductController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Product tidak ditemukan',
-                'error' => null,
+                'errors' => null,
             ], 404);
         }
 
@@ -83,10 +84,10 @@ class ProductController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Produk tidak ditemukan',
-                'error' => null,
+                'errors' => null,
             ], 404);
         }
-        
+
         $product->delete();
 
         return response()->json([
