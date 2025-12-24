@@ -33,7 +33,7 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Input salah',
-                'error' => $validator->errors(),
+                'errors' => $validator->errors(),
             ], 422);
         }
 
@@ -56,7 +56,7 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Kategori tidak ditemukan',
-                'error' => null,
+                'errors' => null,
             ], 404);
         }
 
@@ -79,7 +79,7 @@ class CategoryController extends Controller
             return response()->json([
                 'status' => 'error',
                 'message' => 'Kategori tidak ditemukan',
-                'error' => null,
+                'errors' => null,
             ], 404);
         } else {
             $category->delete();
