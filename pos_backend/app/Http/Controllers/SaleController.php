@@ -54,7 +54,7 @@ class SaleController extends Controller
 
                 $product->decrement('stock', $item['quantity']);   
 
-                $sale->details->create([
+                $sale->details()->create([
                     'product_id' => $product->id,
                     'quantity' => $item['quantity'],
                     'subtotal' => $subTotal
